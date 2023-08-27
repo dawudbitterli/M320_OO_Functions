@@ -2,7 +2,11 @@
 {
     using System;
     using System.Linq;
-
+    
+    /*
+    Autor: Dawud Bitterli
+    Date: 28.08.2023
+    */
     class MyMath
     {
         public static int Calc_ggT(int a, int b) => b == 0 ? a : Calc_ggT(b, a % b);
