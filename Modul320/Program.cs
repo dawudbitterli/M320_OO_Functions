@@ -5,7 +5,7 @@
 
     /*
     Autor: Dawud Bitterli
-    Date: 28.08.2023
+    Date: 03.09.2023
     */
     class Calculator
     {
