@@ -2,80 +2,123 @@
 {
     using System;
     using System.Linq;
-    
+
     /*
     Autor: Dawud Bitterli
     Date: 28.08.2023
     */
-    class MyMath
+    class Calculator
     {
-        public static int Calc_ggT(int a, int b) => b == 0 ? a : Calc_ggT(b, a % b);
-        public static int Calc_kgV(int a, int b) => (a * b) / Calc_ggT(a, b);
+        private int result; // Interner Zustand, um das Ergebnis der letzten Operation zu speichern
 
-        public static int ReadInt(string prompt) => Enumerable.Range(1, int.MaxValue).Select(_ => { Console.Write(prompt); return int.Parse(Console.ReadLine()); }).First();
-        public static void ShowResult(string operation, int a, int b, int result) => Console.WriteLine($"{operation} von {a} und {b} ist {result}");
-
-        public static double CalcArithmeticMean(int[] numbers) => numbers.Average();
-        public static int FindSmallestValue(int[] numbers) => numbers.Min();
-        public static int FindLargestValue(int[] numbers) => numbers.Max();
-
-        public static void Swap(ref int a, ref int b) => (a, b) = (b, a);
-
-        public static void ReverseArray(int[] array) => array.Reverse();
-    }
-
-    class Program
-    {
-        static void Main(string[] args)
+        // Methode für die Addition von zwei Zahlen
+        public int Add(int a, int b)
         {
+            result = a + b;
+            return result;
+        }
+
+        // Methode für die Subtraktion von zwei Zahlen
+        public int Subtract(int a, int b)
+        {
+            result = a - b;
+            return result;
+        }
+
+        // Methode für die Multiplikation von zwei Zahlen
+        public int Multiply(int a, int b)
+        {
+            result = a * b;
+            return result;
+        }
+
+        // Methode für die Ganzzahl-Division von zwei Zahlen
+        public int Divide(int a, int b)
+        {
+            if (b != 0)
+            {
+                result = a / b;
+            }
+            else
+            {
+                Console.WriteLine("Division durch Null ist nicht erlaubt.");
+            }
+            return result;
+        }
+
+        // Methode für die Ausgabe des aktuellen Ergebnisses
+        public void DisplayResult()
+        {
+            Console.WriteLine($"Aktuelles Ergebnis: {result}");
+        }
+
+        static void Main()
+        {
+            Calculator calculator = new Calculator();
+
             while (true)
             {
-                Console.WriteLine("1. ggT berechnen");
-                Console.WriteLine("2. kgV berechnen");
-                Console.WriteLine("3. Array-Funktionen");
-                Console.WriteLine("4. Beenden");
-                Console.Write("Option wählen: ");
+                Console.WriteLine("Bitte wählen Sie eine Operation:");
+                Console.WriteLine("1. Addition");
+                Console.WriteLine("2. Subtraktion");
+                Console.WriteLine("3. Multiplikation");
+                Console.WriteLine("4. Ganzzahl-Division");
+                Console.WriteLine("5. Beenden");
 
-                int option = int.Parse(Console.ReadLine());
+                int choice = int.Parse(Console.ReadLine());
 
-                if (option == 1)
+                if (choice == 5)
                 {
-                    int a = MyMath.ReadInt("Geben Sie die erste Zahl ein: ");
-                    int b = MyMath.ReadInt("Geben Sie die zweite Zahl ein: ");
-                    int result = MyMath.Calc_ggT(a, b);
-                    MyMath.ShowResult("ggT", a, b, result);
-                }
-                else if (option == 2)
-                {
-                    int a = MyMath.ReadInt("Geben Sie die erste Zahl ein: ");
-                    int b = MyMath.ReadInt("Geben Sie die zweite Zahl ein: ");
-                    int result = MyMath.Calc_kgV(a, b);
-                    MyMath.ShowResult("kgV", a, b, result);
-                }
-                else if (option == 3)
-                {
-                    int arraySize = MyMath.ReadInt("Geben Sie die Größe des Arrays ein: ");
-                    int[] numbers = Enumerable.Range(1, arraySize).Select(_ => MyMath.ReadInt($"Geben Sie die Zahl an Index {_} ein: ")).ToArray();
-
-                    Console.WriteLine($"Arithmetischer Mittelwert: {MyMath.CalcArithmeticMean(numbers)}");
-                    Console.WriteLine($"Kleinster Wert: {MyMath.FindSmallestValue(numbers)}");
-                    Console.WriteLine($"Größter Wert: {MyMath.FindLargestValue(numbers)}");
-
-                    MyMath.ReverseArray(numbers);
-                    Console.WriteLine("Umgekehrtes Array:");
-                    Console.WriteLine(string.Join(" ", numbers));
-                }
-                else if (option == 4)
-                {
+                    Console.WriteLine("Das Programm wird beendet.");
                     break;
+                }
+
+                Console.Write("Geben Sie den ersten Operanden ein: ");
+                int operand1 = int.Parse(Console.ReadLine());
+
+                if (choice != 1 && choice != 5)
+                {
+                    Console.Write("Geben Sie den zweiten Operanden ein: ");
+                    int operand2 = int.Parse(Console.ReadLine());
+
+                    switch (choice)
+                    {
+                        case 1:
+                            calculator.Add(operand1, operand2);
+                            break;
+                        case 2:
+                            calculator.Subtract(operand1, operand2);
+                            break;
+                        case 3:
+                            calculator.Multiply(operand1, operand2);
+                            break;
+                        case 4:
+                            calculator.Divide(operand1, operand2);
+                            break;
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("Ungültige Option!");
+                    switch (choice)
+                    {
+                        case 1:
+                            calculator.Add(calculator.result, operand1);
+                            break;
+                        case 2:
+                            calculator.Subtract(calculator.result, operand1);
+                            break;
+                        case 3:
+                            calculator.Multiply(calculator.result, operand1);
+                            break;
+                        case 4:
+                            calculator.Divide(calculator.result, operand1);
+                            break;
+                    }
                 }
 
-                Console.WriteLine();
+                calculator.DisplayResult();
             }
         }
     }
+
 }
